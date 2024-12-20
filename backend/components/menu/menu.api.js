@@ -1,4 +1,4 @@
-const { Menu } = require('./menu.schema');
+const {Menu}  = require('./menu.schema');
 const { MenuItemFactory } = require('./menu.factory');
 const { auth } = require('../../auth');
 
@@ -17,7 +17,6 @@ module.exports.Init_Menu = (app) => {
   // Get a menu item by ID
   app.get('/menu/:id', async (req, res) => {
     const { id } = req.params;
-
     try {
       const item = await Menu.findById(id);
       if (!item) {
@@ -30,12 +29,12 @@ module.exports.Init_Menu = (app) => {
     }
   });
 
-  // Create a new menu item using the Factory
+  // Create a new menu item
   app.post('/menu', auth('admin'), async (req, res) => {
     const { type, name, price, description, extra_property } = req.body;
 
     if (!type || !name || !price || !description || !extra_property) {
-      return res.status(400).json({ error: "All fields are required" });
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
     try {
@@ -45,14 +44,14 @@ module.exports.Init_Menu = (app) => {
         price: menuItem.price,
         description: menuItem.description,
         type: menuItem.type,
-        extra_property: extra_property
+        extra_property: extra_property,
       });
 
       const savedItem = await newMenuItem.save();
-      res.status(201).json({ message: "Menu item created successfully", item: menuItem.display() });
+      res.status(201).json({ message: 'Menu item created successfully', item: menuItem.display() });
     } catch (err) {
-      console.error("Error creating menu item:", err);
-      res.status(500).json({ error: "Failed to create menu item" });
+      console.error('Error creating menu item:', err);
+      res.status(500).json({ error: 'Failed to create menu item' });
     }
   });
 
@@ -62,7 +61,7 @@ module.exports.Init_Menu = (app) => {
     const { newPrice } = req.body;
 
     if (newPrice === undefined) {
-      return res.status(400).json({ error: "New price is required" });
+      return res.status(400).json({ error: 'New price is required' });
     }
 
     try {
@@ -75,10 +74,10 @@ module.exports.Init_Menu = (app) => {
       item.price = newPrice;
       await item.save();
 
-      res.status(200).json({ message: "Price updated successfully", item });
+      res.status(200).json({ message: 'Price updated successfully', item });
     } catch (err) {
-      console.error("Error updating menu price:", err);
-      res.status(500).json({ error: "Failed to update menu price" });
+      console.error('Error updating menu price:', err);
+      res.status(500).json({ error: 'Failed to update menu price' });
     }
   });
 
@@ -97,6 +96,6 @@ module.exports.Init_Menu = (app) => {
     } catch (err) {
       console.error('Error deleting menu item:', err);
       res.status(500).json({ error: 'Failed to delete menu item' });
-    }
-  });
+    }
+  });
 };

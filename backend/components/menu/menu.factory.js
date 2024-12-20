@@ -1,5 +1,8 @@
+// menu.factory.js
+
 class MenuItem {
   constructor(name, price, description) {
+    // Ensure the MenuItem class cannot be instantiated directly
     if (this.constructor === MenuItem) {
       throw new Error("Abstract class MenuItem cannot be instantiated directly.");
     }
@@ -51,6 +54,7 @@ class MainCourse extends MenuItem {
 
 class MenuItemFactory {
   static createMenuItem(type, name, price, description, extraProperty) {
+    // Ensure valid menu item type and create the appropriate instance
     switch (type.toLowerCase()) {
       case "beverage":
         return new Beverage(name, price, description, extraProperty); // Size for beverages
